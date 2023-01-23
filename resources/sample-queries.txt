@@ -1,0 +1,68 @@
+#Grab all the posts
+SELECT title, body, date
+FROM posts
+
+#Grab all the posts that are written by author 1
+SELECT title, body, date, user_id
+FROM posts
+WHERE user_id = 1
+
+#Grab all the published posts that are written by author 1
+SELECT title, body, date, user_id
+FROM posts
+WHERE user_id = 1 
+	AND is_published = 1
+
+# get all the approved comments on any post (body and date)
+SELECT body, date
+FROM comments
+WHERE is_approved = 1
+
+# get all the categories
+SELECT *
+FROM categories
+
+# add a new comment
+INSERT INTO comments
+(body, post_id, user_id, date, is_approved)
+VALUES
+('This is my comment body', 2, 1, NOW(), 0 )
+
+# add multiple categories
+INSERT INTO categories
+(name)
+VALUES
+('Macro Photos'),
+('Weddings'),
+('Pets')
+
+#Change user 2's email address
+UPDATE users
+SET email = 'newEmail@gmail.com'
+WHERE user_id = 2
+
+#delete comment 3
+DELETE FROM comments
+WHERE comment_id = 3
+
+#Count the number of approved comments on each post
+SELECT post_id, COUNT(*) as total
+FROM comments
+WHERE is_approved = 1
+GROUP BY post_id
+
+#Count the number of users based on admin roles 
+SELECT is_admin, COUNT(*) AS total
+FROM users
+GROUP BY is_admin
+
+#Get all the post titles and usernames of the authors
+SELECT posts.title, users.username
+FROM posts, users
+WHERE posts.user_id = users.user_id
+
+#Get all the post titles and usernames of the authors and the name of the post's category
+SELECT posts.title, users.username, categories.name
+FROM posts, users, categories
+WHERE posts.user_id = users.user_id
+AND posts.category_id = categories.category_id
