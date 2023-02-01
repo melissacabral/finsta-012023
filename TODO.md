@@ -1,9 +1,10 @@
 TODO
 ====
 
-* build step 2 of new post (edit post title, body, etc)
-* Build the user profile
+* make the "edit post" checkboxes and dropdown stick
+* Add an "edit" button to only  the logged in user's posts
 
+* Build the user profile
 * write TOS/privacy policy
 
 DONE
@@ -20,3 +21,5 @@ DONE
 * Add login aurthentication to certain features (commenting, new post etc)
 * Build the "new Post" screen
 * custom 404
+* Build the "edit post" screen (step 2 of adding a new post)
+* display uploaded images throughout the site with a helper function

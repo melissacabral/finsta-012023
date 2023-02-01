@@ -106,6 +106,10 @@ if( isset($_POST['did_upload']) ){
 				//success
 				$feedback = 'Success! your post was created.';
 				$feedback_class = 'success';
+
+				//redirect to step 2! edit this post title body, etc
+				$post_id = $DB->lastInsertId();
+				header("Location:edit-post.php?post_id=$post_id");
 			}else{
 				//error
 				$feedback = 'Your post was not saved.';

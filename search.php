@@ -78,8 +78,7 @@ require('includes/header.php');
 			<div class="card">
 				<div class="post-image-header">
 					<a href="single.php?post_id=<?php echo $post['post_id']; ?>">
-						<img src="<?php echo $post['image']; ?>" 
-							alt="<?php echo $post['title']; ?>" class="post-image">
+						<?php show_post_image( $post['image'], 'small', $post['title'] ); ?>
 					</a>
 				</div>
 				<footer>
