@@ -5,8 +5,8 @@ $feedback_class = '';
 //logout behavior. The URL will have ?action=logout
 if( isset( $_GET['action'] ) AND $_GET['action'] == 'logout' ){
 	//expire all cookies
-	setcookie( 'logged_in', 0, time() - 9999 );
-	setcookie( 'username', '', time() - 9999 );
+	setcookie( 'access_token', 0, time() - 9999 );
+	setcookie( 'user_id', '', time() - 9999 );
 
 	//unset all session vars
 	$_SESSION = array();
@@ -24,6 +24,9 @@ if( isset( $_GET['action'] ) AND $_GET['action'] == 'logout' ){
 
 	//take care of the session ID
 	session_destroy();
+
+	//redirect
+	header('Location:login.php');
 
 } //end logout
 
@@ -65,7 +68,24 @@ if( isset( $_POST['did_login'] )){
 				$access_token = bin2hex( random_bytes(30) );
 				$expire = time() + 60 * 60 * 24 * 14;
 				setcookie( 'access_token', $access_token, $expire );
-				//@TODO! Keep going! make the cookie do stuff
+				$_SESSION['access_token'] = $access_token;
+
+				$hashed_id = password_hash( $row['user_id'], PASSWORD_DEFAULT );
+				setcookie( 'user_id', $hashed_id, $expire );
+				$_SESSION['user_id'] = $hashed_id;
+		
+				//store the access token in the database
+				$result  = $DB->prepare('UPDATE users
+										SET access_token = :token
+										WHERE user_id = :id
+										LIMIT 1');
+				$result->execute( array(
+									'token' => $access_token,
+									'id' 	=> $row['user_id'],
+								) );
+
+				//redirect to the home page
+				header('Location:index.php');
 				
 			}else{
 				//bad password

@@ -19,11 +19,12 @@ if( $total > 0 ){
         extract($row);
     ?>
     <div class="card">
-        <div class="user">
-           <img src="<?php echo $profile_pic; ?>">
+         <footer>
+            <div class="user">
+           <img src="<?php echo $profile_pic; ?>" class="profile-pic">
            <span><?php echo $username; ?></span>
         </div>
-        <footer>
+       
            <p><?php echo $body; ?></p>
            <span class="date"><?php nice_date( $date ); ?></span>
         </footer>

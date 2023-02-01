@@ -21,6 +21,7 @@ define('DB_NAME', 'melissa_finsta_012023');
 
 /* -------------------------stop editing------------------------ */
 
+session_start();
 
 /* DISPLAY ERRORS
 On a development server

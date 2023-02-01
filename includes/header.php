@@ -1,3 +1,7 @@
+<?php 
+//check for a logged in user
+$logged_in_user = check_login();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +25,14 @@
 				<label for="menu-button" class="burger pseudo button">&#9776;</label>
 
 				<div class="menu">
-					<a href="login.php">Log In</a>
-					<a href="register.php">Sign Up</a>
+					<?php if( $logged_in_user ){ ?>
+						<a href="#" class="pseudo button"><?php echo $logged_in_user['username']; ?></a>
+						<a href="new-post.php" class="pseudo button">New Post</a>
+						<a href="login.php?action=logout" class="pseudo button">Log Out</a>
+					<?php }else{ ?>
+						<a href="login.php" class="pseudo button">Log In</a>
+						<a href="register.php" class="pseudo button">Sign Up</a>
+					<?php } ?>
 				    
 				    <form action="search.php" method="get" class="searchform">
 				        <input type="search" name="phrase" placeholder="Search">
