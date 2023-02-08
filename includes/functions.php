@@ -8,9 +8,9 @@ function count_comments( $post_id ){
 	//to access a var from outside a function, use global keyword
 	global $DB;
 	$result = $DB->prepare('SELECT COUNT(*) AS total
-							FROM comments
-							WHERE post_id = ?
-							AND is_approved = 1');
+       FROM comments
+       WHERE post_id = ?
+       AND is_approved = 1');
 	//run it and bind the variable to the placeholder (?)
 	$result->execute( array( $post_id ) );
 	//check it
@@ -231,33 +231,33 @@ function check_login(){
     if( isset($_SESSION['access_token']) AND isset($_SESSION['user_id']) ){
         //check to see if these keys match the DB     
 
-         $data = array(
-            'access_token' =>$_SESSION['access_token'],
-        );
+     $data = array(
+        'access_token' =>$_SESSION['access_token'],
+    );
 
-         $result = $DB->prepare(
-            "SELECT * FROM users
-            WHERE  access_token = :access_token
-            LIMIT 1");
-         $result->execute( $data );
+     $result = $DB->prepare(
+        "SELECT * FROM users
+        WHERE  access_token = :access_token
+        LIMIT 1");
+     $result->execute( $data );
 
-         if($result->rowCount() > 0){
+     if($result->rowCount() > 0){
                 //token found. confirm the user_id
-            $row = $result->fetch();
-            if( password_verify( $row['user_id'], $_SESSION['user_id'] ) ){
+        $row = $result->fetch();
+        if( password_verify( $row['user_id'], $_SESSION['user_id'] ) ){
                     //success! return all the info about the logged in user
-                return $row;
-            }else{
-                return false;
-            }
-
+            return $row;
         }else{
             return false;
         }
+
     }else{
-            //not logged in
         return false;
     }
+}else{
+            //not logged in
+    return false;
+}
 }
 
 function category_dropdown(){
@@ -274,13 +274,73 @@ function category_dropdown(){
         echo '</select>';
     }
 }
-
+/**
+ * Display the image of any post
+ * @param  string $unique The unique string identifier of the image
+ * @param  string $size   'small' 'medium' or 'large'
+ * @param  string $alt    img alt text
+ * @return string         HTML img tag
+ */
 function show_post_image( $unique, $size = 'medium', $alt = 'post image'  ){
-     $url = "uploads/$unique" . '_' . "$size.jpg";
+ $url = "uploads/$unique" . '_' . "$size.jpg";
     //if the "unique" is not an absolute path, format it. 
     //this makes our old placeholder images still work. Not really necessary but nice for this class. 
-    if( strpos( $unique, 'http' ) === 0 ){
-        $url = $unique;
+ if( strpos( $unique, 'http' ) === 0 ){
+    $url = $unique;
+}
+echo "<img src='$url' alt='$alt' class='post-image is-$size'>";
+}
+
+
+function count_likes( $post_id ){
+    global $DB;
+    $result = $DB->prepare( "SELECT COUNT(*) AS total_likes
+        FROM likes
+        WHERE post_id = ?" );
+    $result->execute( array($post_id) );
+    if($result->rowCount() >= 1){
+        $row = $result->fetch();
+        $total = $row['total_likes'];
+
+        return $total;
     }
-    echo "<img src='$url' alt='$alt' class='post-image is-$size'>";
+}
+/**
+ * Interface for "like" button and count
+ * works on any post
+ */
+function like_interface( $post_id, $user_id = 0 ){
+  global $DB;
+  //is the viewer logged in?
+    if( $user_id ){
+    //does the viewer "like" this post?
+     $result = $DB->prepare( "SELECT * FROM likes
+              WHERE user_id = ?
+              AND post_id = ?
+              LIMIT 1" );
+      $result->execute(array($user_id, $post_id));
+   if( $result->rowCount() >= 1 ){
+      //they like it
+      $class = 'you-like';
+    }else{
+      //they don't like
+      $class = 'not-liked';
+    }
+  } //end if logged in
+  ?>
+  <span class="like-interface">
+    <span class="<?php echo $class; ?>">
+      
+      <?php 
+      //logged in?
+      if( $user_id ){ ?>
+      <span class="heart-button" data-postid="<?php echo $post_id; ?>">❤</span>
+      <?php 
+      } //end if logged in
+      ?>
+
+      <?php echo count_likes( $post_id ); ?>
+    </span>
+  </span>
+  <?php
 }

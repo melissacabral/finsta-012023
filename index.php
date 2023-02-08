@@ -37,14 +37,23 @@ require('includes/header.php');
 							<img src="<?php echo $post['profile_pic']; ?>">
 							<span><?php echo $post['username']; ?></span>
 						</div>
-					</div>
+						<div class="likes fifth">
+							<?php 
+							if($logged_in_user){
+								$user_id = $logged_in_user['user_id'];
+							}else{
+								$user_id = 0;
+							}
+							like_interface( $post['post_id'], $user_id ); ?>
+						</div>
+					</div><!-- .post-header -->
 
 					<h3 class="post-title clamp"><?php echo $post['title']; ?></h3>
 					<p class="post-excerpt clamp"><?php echo $post['body']; ?></p>
 					<div class="flex post-info">	
 						<span class="category"><?php echo $post['name']; ?></span>
 						<span class="comment-count">
-							<?php count_comments($post['post_id']); ?></span>				
+							<?php count_comments( $post['post_id'] ); ?></span>				
 						<span class="date"><?php echo time_ago( $post['date'] ); ?></span>			
 					</div>
 				</footer>

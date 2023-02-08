@@ -23,3 +23,10 @@ DONE
 * custom 404
 * Build the "edit post" screen (step 2 of adding a new post)
 * display uploaded images throughout the site with a helper function
+* Import the likes table (likes.sql) into our DB
+* write the HTML for the like button interface (index.php)
+* Add the CSS for the heart button (css/style.css)
+* Add the count_likes function (includes/functions.php)
+* add the likes interface function (includes/functions.php)
+* add the JS Fetch() call when the user clicks the heart button (includes/footer.php) 
+* add the ajax handler PHP file to update the DB behind the scenes (ajax-handlers/like-unlike.php)
