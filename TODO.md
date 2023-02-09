@@ -18,7 +18,7 @@ DONE
 * Add Register form and parse new user accounts
 * Add Login and parse
 * finish the login cookies
-* Add login aurthentication to certain features (commenting, new post etc)
+* Add login authentication to certain features (commenting, new post etc)
 * Build the "new Post" screen
 * custom 404
 * Build the "edit post" screen (step 2 of adding a new post)

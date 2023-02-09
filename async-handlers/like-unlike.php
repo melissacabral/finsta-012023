@@ -2,6 +2,7 @@
 //load dependencies
 require('../config.php');
 require_once('../includes/functions.php');
+$logged_in_user = check_login();
 
 //deal with incoming data
 $post_id = filter_var( $_POST['postId'], FILTER_SANITIZE_NUMBER_INT );
@@ -36,7 +37,7 @@ $result->execute( array(
 //if it worked, update the like interface
 
 if( $result->rowCount() >= 1 ){
-	like_interface( $post_id, $user_id );
+	like_interface( $post_id );
 }else{
 	//TODO: remove this after testing
 	echo 'failed.';

@@ -6,11 +6,12 @@ if( DEBUG_MODE ){
 } ?>
 
 <?php if($logged_in_user){ ?>
+	<!-- Like Button Interaction -->
 	<script type="text/javascript">
 		//listen for clicks on any hearts
 		document.body.addEventListener( 'click', function(e){
 			if(e.target.className == 'heart-button'){
-				console.log(e.target.dataset.postid);
+				
 				likeUnlike( e.target );
 			}
 		} );
@@ -19,6 +20,7 @@ if( DEBUG_MODE ){
 			let postId = el.dataset.postid;
 			let userId = <?php echo $logged_in_user['user_id']; ?>;
 			let container = el.closest('.likes');
+			console.log(postId, userId);
 
 			let formData = new FormData();
 			formData.append('postId', postId);
@@ -29,7 +31,6 @@ if( DEBUG_MODE ){
 				body : formData
 			} );
 			if(response.ok){
-				console.log('ok');
 				let result = await response.text();
 				container.innerHTML = result;
 			}else{

@@ -30,6 +30,14 @@ require('includes/header.php');
 					<a href="single.php?post_id=<?php echo $post['post_id']; ?>">
 						<?php show_post_image( $post['image'], 'medium', $post['title'] ); ?>
 					</a>
+
+					<?php 
+					//show an "edit" button if this is your post
+					if( $logged_in_user AND $logged_in_user['user_id'] == $post['user_id'] ){
+						$post_id = $post['post_id'];
+						echo "<a href='edit-post.php?post_id=$post_id' class='button edit-post-button'>
+						Edit</a>";
+					} ?>
 				</div>
 				<footer>
 					<div class="post-header flex two">
@@ -38,13 +46,7 @@ require('includes/header.php');
 							<span><?php echo $post['username']; ?></span>
 						</div>
 						<div class="likes fifth">
-							<?php 
-							if($logged_in_user){
-								$user_id = $logged_in_user['user_id'];
-							}else{
-								$user_id = 0;
-							}
-							like_interface( $post['post_id'], $user_id ); ?>
+							<?php like_interface( $post['post_id']); ?>
 						</div>
 					</div><!-- .post-header -->
 
